@@ -1,26 +1,35 @@
-import { todos } from './data/todos';
-import { TodoTable } from './components/TodoTable';
+
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { MainNav } from './components/MainNav';
+import { TodosPage } from './pages/TodosPage';
 
 export const App = () => {
+  // const { todoId } = useParams(); //doest work outside of Route
+  // const match = useMatch('/todos/:todoId'); //prints todoId before table with <p>
+
+
   return <>
-    <nav className="navbar is-light px-3">
-      <div className="navbar-brand">
-        <a href="/" className="navbar-item">
-          <img src="/logo.svg" alt="MA" className="logo" />
-        </a>
+    <MainNav />
 
-        <a href="/" className="navbar-item">Home</a>
-        <a href="todos" className="navbar-item">Todos</a>
-      </div>
-    </nav>
+    {/* <p>{match?.params.todoId}</p> */}
 
-    <div className="section">
-      <h1 className="title">Todos Page</h1>
+    <Routes>
+      {/* <Route path='/' element={<App />}> */}
+      <Route path='/' element={<h1 className="title">Home Page</h1>} />
 
-      <TodoTable
-        todos={todos}
-        selectedTodoId={3}
-      />
-    </div>
+      <Route path="/home" element={<Navigate to="/" replace />} />
+
+      <Route path="todos">
+        <Route index element={<TodosPage />} />
+        <Route path=":todoId" element={<TodosPage />} />
+      </Route>
+
+      <Route path="*" element={<p>Page not found</p>} />
+      {/* </Route> */}
+    </Routes>
+
+    {/* <div className="section">
+      <Outlet />
+    </div> */}
   </>;
 };

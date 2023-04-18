@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { FC } from 'react';
 import { Todo } from '../types';
+import { Link } from 'react-router-dom';
 
 type Props = {
   todos: Todo[];
@@ -9,6 +10,7 @@ type Props = {
 
 export const TodoTable: FC<Props> = ({ todos, selectedTodoId = 0 }) => {
   const isSelected = (todo: Todo) => todo.id === selectedTodoId;
+
 
   return (
     <table className="table is-striped">
@@ -45,20 +47,24 @@ export const TodoTable: FC<Props> = ({ todos, selectedTodoId = 0 }) => {
             </td>
 
             <td>
-              <a className={classNames('button', {
-                'is-info': isSelected(todo),
-              })}>
+              <Link
+                to={`/todos/${todo.id}`}
+                // to={`../${todo.id}`}
+                // to={isSelected(todo) ? `../` : `../${todo.id}`}
+                className={classNames('button', {
+                  'is-info': isSelected(todo),
+                })}>
                 <span className="icon">
                   <i className={classNames('fas', {
                     'fa-eye': !isSelected(todo),
                     'fa-eye-slash': isSelected(todo),
                   })} />
                 </span>
-              </a>
+              </Link>
             </td>
           </tr>
         ))}
       </tbody>
-    </table>
+    </table >
   );
 };
